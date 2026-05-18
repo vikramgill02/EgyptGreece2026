@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Egypt &amp; Greece — August 2026</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --cream:   #F9F7F3;
+      --white:   #FFFFFF;
+      --ink:     #1C1917;
+      --muted:   #78716C;
+      --border:  #E8E4DE;
+
+      --greece:       #4374A3;
+      --greece-light: #EBF3FA;
+
+      --egypt:        #B5541A;
+      --egypt-light:  #FDF1E8;
+
+      --ssh:          #1E9E90;
+      --ssh-light:    #E6F5F4;
+
+      --transit:      #8C9BAD;
+      --transit-light:#F0F2F5;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--cream);
+      color: var(--ink);
+      font-size: 14px;
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+
+    /* ── HERO ── */
+    .hero {
+      text-align: center;
+      padding: 72px 24px 56px;
+      border-bottom: 1px solid var(--border);
+      background: var(--white);
+    }
+    .hero-flags {
+      font-size: 28px;
+      letter-spacing: 10px;
+      margin-bottom: 20px;
+    }
+    .hero-eyebrow {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 18px;
+    }
+    .hero h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(48px, 9vw, 96px);
+      font-weight: 300;
+      line-height: 1.0;
+      letter-spacing: -0.02em;
+      color: var(--ink);
+      margin-bottom: 18px;
+    }
+    .hero h1 span {
+      font-style: italic;
+      color: var(--egypt);
+    }
+    .hero-sub {
+      font-size: 13px;
+      color: var(--muted);
+      letter-spacing: 0.03em;
+    }
+    .hero-sub strong {
+      color: var(--ink);
+      font-weight: 500;
+    }
+
+    /* ── LEGEND ── */
+    .legend {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 6px 20px;
+      padding: 20px 24px;
+      background: var(--white);
+      border-bottom: 1px solid var(--border);
+    }
+    .leg-item {
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--muted);
+      letter-spacing: 0.04em;
+    }
+    .leg-dot {
+      width: 9px;
+      height: 9px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+
+    /* ── CALENDAR ── */
+    .cal-wrap {
+      max-width: 640px;
+      margin: 52px auto 0;
+      padding: 0 24px;
+    }
+    .cal-title {
+      text-align: center;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 20px;
+      font-weight: 400;
+      color: var(--muted);
+      letter-spacing: 0.08em;
+      margin-bottom: 20px;
+    }
+    .cal-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 5px;
+    }
+    .cal-hdr {
+      text-align: center;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--muted);
+      padding: 6px 0 10px;
+    }
+    .cal-cell {
+      aspect-ratio: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 10px;
+      font-size: 13px;
+      color: #C4BAB2;
+      font-weight: 400;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+    .cal-cell.today {
+      border: 1px solid var(--border);
+      color: var(--muted);
+    }
+    .cal-cell.trip {
+      font-weight: 600;
+      color: white;
+      cursor: pointer;
+    }
+    .cal-cell.trip:hover {
+      transform: scale(1.12);
+      box-shadow: 0 4px 14px rgba(0,0,0,0.15);
+      z-index: 1;
+    }
+    .cal-cell.c-transit  { background: var(--transit); }
+    .cal-cell.c-greece   { background: var(--greece); }
+    .cal-cell.c-ssh      { background: var(--ssh); }
+    .cal-cell.c-egypt    { background: var(--egypt); }
+    .cal-cell.c-multi    {
+      background: linear-gradient(135deg, var(--greece) 50%, var(--ssh) 50%);
+    }
+
+    /* ── DIVIDER ── */
+    .divider {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      max-width: 640px;
+      margin: 52px auto 0;
+      padding: 0 24px;
+      color: var(--muted);
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+    }
+    .divider::before,
+    .divider::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* ── DAY CARDS ── */
+    .days {
+      max-width: 700px;
+      margin: 32px auto 0;
+      padding: 0 24px 100px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    .day-card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      overflow: hidden;
+    }
+
+    .day-hdr {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 18px 22px;
+      border-bottom: 1px solid var(--border);
+    }
+    .day-num {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 42px;
+      font-weight: 300;
+      line-height: 1;
+      min-width: 50px;
+    }
+    .day-meta { flex: 1; }
+    .day-dow {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      margin-bottom: 2px;
+    }
+    .day-loc {
+      font-size: 16px;
+      font-weight: 500;
+      color: var(--ink);
+      line-height: 1.3;
+    }
+    .day-badge {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.07em;
+      text-transform: uppercase;
+      padding: 5px 13px;
+      border-radius: 20px;
+      color: white;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+    .b-transit { background: var(--transit); }
+    .b-greece  { background: var(--greece); }
+    .b-ssh     { background: var(--ssh); }
+    .b-egypt   { background: var(--egypt); }
+    .b-multi   { background: linear-gradient(100deg, var(--greece), var(--ssh)); }
+
+    /* ── EVENT ROWS ── */
+    .event-row {
+      display: flex;
+      align-items: flex-start;
+      gap: 14px;
+      padding: 13px 22px;
+      border-bottom: 1px solid var(--border);
+      transition: background 0.12s ease;
+    }
+    .event-row:last-child { border-bottom: none; }
+    .event-row:hover { background: var(--cream); }
+    .event-row.skipped { opacity: 0.38; }
+
+    .ev-icon {
+      font-size: 17px;
+      min-width: 26px;
+      text-align: center;
+      margin-top: 2px;
+    }
+    .ev-body { flex: 1; min-width: 0; }
+    .ev-name {
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--ink);
+      line-height: 1.4;
+    }
+    .event-row.skipped .ev-name {
+      text-decoration: line-through;
+      color: var(--muted);
+    }
+    .ev-note {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 1px;
+    }
+    .ev-right {
+      display: flex;
+      align-items: center;
+      gap: 9px;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .ev-cost {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--ink);
+    }
+    .pill {
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      padding: 3px 9px;
+      border-radius: 12px;
+    }
+    .pill-ok   { background: #DCFCE7; color: #15803D; }
+    .pill-no   { background: #FEE2E2; color: #DC2626; }
+    .pill-tbd  { background: #FEF9C3; color: #B45309; }
+
+    /* free-day placeholder */
+    .free-day {
+      padding: 16px 22px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .free-day-icon { font-size: 18px; }
+
+    /* ── FOOTER ── */
+    footer {
+      text-align: center;
+      padding: 36px 24px;
+      font-size: 12px;
+      color: var(--muted);
+      border-top: 1px solid var(--border);
+      background: var(--white);
+    }
+
+    @media (max-width: 500px) {
+      .hero h1 { font-size: 44px; }
+      .day-hdr { flex-wrap: wrap; }
+      .ev-right { flex-wrap: wrap; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ═══ HERO ═══ -->
+<header class="hero">
+  <div class="hero-flags">🇬🇷 🇪🇬</div>
+  <p class="hero-eyebrow">Summer 2026 &nbsp;·&nbsp; Travel Itinerary</p>
+  <h1><span>Egypt</span> &amp; Greece</h1>
+  <p class="hero-sub"><strong>August 18 – 29, 2026</strong> &nbsp;·&nbsp; 12 Days</p>
+</header>
+
+<!-- ═══ LEGEND ═══ -->
+<div class="legend">
+  <div class="leg-item"><div class="leg-dot" style="background:var(--transit)"></div>Transit</div>
+  <div class="leg-item"><div class="leg-dot" style="background:var(--greece)"></div>Athens, Greece</div>
+  <div class="leg-item"><div class="leg-dot" style="background:var(--ssh)"></div>Sharm el Sheikh</div>
+  <div class="leg-item"><div class="leg-dot" style="background:var(--egypt)"></div>Cairo, Egypt</div>
+</div>
+
+<!-- ═══ CALENDAR ═══ -->
+<div class="cal-wrap">
+  <p class="cal-title">August 2026</p>
+  <div class="cal-grid">
+    <!-- headers -->
+    <div class="cal-hdr">Sun</div>
+    <div class="cal-hdr">Mon</div>
+    <div class="cal-hdr">Tue</div>
+    <div class="cal-hdr">Wed</div>
+    <div class="cal-hdr">Thu</div>
+    <div class="cal-hdr">Fri</div>
+    <div class="cal-hdr">Sat</div>
+    <!-- week 1 — Aug 1 = Saturday -->
+    <div class="cal-cell"></div>
+    <div class="cal-cell"></div>
+    <div class="cal-cell"></div>
+    <div class="cal-cell"></div>
+    <div class="cal-cell"></div>
+    <div class="cal-cell"></div>
+    <div class="cal-cell">1</div>
+    <!-- week 2 -->
+    <div class="cal-cell">2</div>
+    <div class="cal-cell">3</div>
+    <div class="cal-cell">4</div>
+    <div class="cal-cell">5</div>
+    <div class="cal-cell">6</div>
+    <div class="cal-cell">7</div>
+    <div class="cal-cell">8</div>
+    <!-- week 3 -->
+    <div class="cal-cell">9</div>
+    <div class="cal-cell">10</div>
+    <div class="cal-cell">11</div>
+    <div class="cal-cell">12</div>
+    <div class="cal-cell">13</div>
+    <div class="cal-cell">14</div>
+    <div class="cal-cell">15</div>
+    <!-- week 4 -->
+    <div class="cal-cell">16</div>
+    <div class="cal-cell">17</div>
+    <div class="cal-cell trip c-transit" onclick="go('aug18')" title="Travel Day">18</div>
+    <div class="cal-cell trip c-greece"  onclick="go('aug19')" title="Athens">19</div>
+    <div class="cal-cell trip c-greece"  onclick="go('aug20')" title="Athens">20</div>
+    <div class="cal-cell trip c-greece"  onclick="go('aug21')" title="Athens">21</div>
+    <div class="cal-cell trip c-greece"  onclick="go('aug22')" title="Athens">22</div>
+    <!-- week 5 -->
+    <div class="cal-cell trip c-greece"  onclick="go('aug23')" title="Athens">23</div>
+    <div class="cal-cell trip c-multi"   onclick="go('aug24')" title="Athens → Sharm">24</div>
+    <div class="cal-cell trip c-ssh"     onclick="go('aug25')" title="Sharm el Sheikh">25</div>
+    <div class="cal-cell trip c-egypt"   onclick="go('aug26')" title="Cairo">26</div>
+    <div class="cal-cell trip c-egypt"   onclick="go('aug27')" title="Cairo">27</div>
+    <div class="cal-cell trip c-egypt"   onclick="go('aug28')" title="Cairo">28</div>
+    <div class="cal-cell trip c-transit" onclick="go('aug29')" title="Heading Home">29</div>
+    <!-- week 6 -->
+    <div class="cal-cell">30</div>
+    <div class="cal-cell">31</div>
+  </div>
+</div>
+
+<div class="divider" style="margin-top:52px;">Day by Day</div>
+
+<!-- ═══ DAY CARDS ═══ -->
+<div class="days">
+
+  <!-- ── AUG 18 ── -->
+  <div class="day-card" id="aug18">
+    <div class="day-hdr">
+      <div class="day-num" style="color:var(--transit)">18</div>
+      <div class="day-meta">
+        <div class="day-dow">Tuesday</div>
+        <div class="day-loc">Sacramento → New York City</div>
+      </div>
+      <span class="day-badge b-transit">Travel Day</span>
+    </div>
+    <div class="event-row">
+      <div class="ev-icon">✈️</div>
+      <div class="ev-body">
+        <div class="ev-name">SMF → JFK</div>
+        <div class="ev-note">6:30am – 3:00pm &nbsp;·&nbsp; Confirmation: EAXQWB &nbsp;·&nbsp; 11,950 pts</div>
+      </div>
+      <div class="ev-right">
+        <span class="ev-cost">$5</span>
+        <span class="pill pill-ok">Booked</span>
+      </div>
+    </div>
+    <div class="event-row">
+      <div class="ev-icon">✈️</div>
+      <div class="ev-body">
+        <div class="ev-name">JFK → Cairo &nbsp;<em style="font-size:12px;color:var(--muted);font-style:normal;">(overnight)</em></div>
+        <div class="ev-note">Departs 7:00pm &nbsp;·&nbsp; 40,000 pts</div>
+      </div>
+      <div class="ev-right">
+        <span class="ev-cost">$59</span>
+        <span class="pill pill-ok">Booked</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── AUG 19 ── -->
+  <div class="day-card" id="aug19">
+    <div class="day-hdr">
+      <div class="day-num" style="color:var(--greece)">19</div>
+      <div class="day-meta">
+        <div class="day-dow">Wednesday</div>
+        <div class="day-loc">Arrive Athens, Greece</div>
+      </div>
+      <span class="day-badge b-greece">Greece</span>
+    </div>
+    <div class="event-row">
+      <div class="ev-icon">✈️</div>
+      <div class="ev-body">
+        <div class="ev-name">Cairo → Athens</div>
+        <div class="ev-note">Departs 10:10am &nbsp;·&nbsp; Arrives 12:00pm &nbsp;·&nbsp; 7,500 pts</div>
+      </div>
+      <div class="ev-right">
+        <span class="ev-cost">$52.56</span>
+        <span class="pill pill-ok">Booked</span>
+      </div>
+    </div>
+    <div class="event-row">
+      <div class="ev-icon">🏨</div>
+      <div class="ev-body">
+        <div class="ev-name">Athens Airbnb — Check In</div>
+        <div class="ev-note">Aug 19 – 24 &nbsp;·&nbsp; 5 nights</div>
+      </div>
+      <div class="ev-right">
+        <span class="ev-cost">$275.34</span>
+        <span class="pill pill-ok">Booked</span>
+      </div>
+    </div>
+    <div class="event-row skipped">
+      <div class="ev-icon">⛵</div>
+      <div class="ev-body">
+        <div class="ev-name">3pm Ferry: Athens → Paros</div>
+        <div class="ev-note">Considered but not taken</div>
+      </div>
+      <div class="ev-right">
+        <span class="ev-cost">$87</span>
+        <span class="pill pill-no">Not Taken</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── AUG 20 ── -->
+  <div class="day-card" id="aug20">
+    <div class="day-hdr">
+      <div class="day-num" style="color:var(--greece)">20</div>
+      <div class="day-meta">
+        <div class="day-dow">Thursday</div>
+        <div class="day-loc">Athens, Greece</div>
+      </div>
+      <span class="day-badge b-greece">Greece</span>
+    </div>
+    <div class="free-day">
+      <div class="free-day-icon">🌿</div>
+      Free day in Athens — Acropolis, Plaka, local food &amp; cafés
+    </div>
+  </div>
+
+  <!-- ── AUG 21 ── -->
+  <div class="day-card" id="aug21">
+    <div class="day-hdr">
+      <div class="day-num" style="color:var(--greece)">21</div>
+      <div class="day-meta">
+        <div class="day-dow">Friday</div>
+        <div class="day-loc">Athens, Greece</div>
+      </div>
+      <span class="day-badge b-greece">Greece</span>
+    </div>
+    <div class="free-day">
+      <div class="free-day-icon">🌿</div>
+      Free day in Athens — neighborhoods, museums, and the seaside
+    </div>
+  </div>
+
+  <!-- ── AUG 22 ── -->
+  <div class="day-card" id="aug22">
+    <div class="day-hdr">
+      <div class="day-num" style="color:var(--greece)">22</div>
+      <div class="day-meta">
+        <div class="day-dow">Saturday</div>
+        <div class="day-loc">Athens, Greece</div>
+      </div>
+      <span class="day-badge b-greece">Greece</span>
+    </div>
+    <div class="event-row skipped">
+      <div class="ev-icon">⛵</div>
+      <div class="ev-body">
+        <div class="ev-name">10am Ferry: Paros → Athens</div>
+        <div class="ev-note">Paros trip not taken — remained in Athens</div>
+      </div>
+      <div class="ev-right">
+        <span class="ev-cost">$80</span>
+        <span class="pill pill-no">Not Taken</span>
+      </div>
+    </div>
+    <div class="free-day">
+      <div class="free-day-icon">🌿</div>
+      Free day in Athens
+    </div>
+  </div>
+
+  <!-- ── AUG 23 ── -->
+  <div class="day-card" id="aug23">
+    <div class="day-hdr">
+      <div class="day-num" style="color:var(--greece)">23</div>
+      <div class="day-meta">
+        <div class="day-dow">Sunday</div>
+        <div class="day-loc">Athens, Greece</div>
+      </div>
+      <span class="day-badge b-greece">Greece</span>
+    </div>
+    <div class="free-day">
+      <div class="free-day-icon">🌿</div>
+      Free day in Athens — last full day in Greece
+    </div>
+  </div>
+
+  <!-- ── AUG 24 ── -->
+  <div class="day-card" id="aug24">
+    <div class="day-hdr">
+      <div class="day-num" style="color:var(--ssh)">24</div>
+      <div class="day-meta">
+        <div class="day-dow">Monday</div>
+        <div class="day-loc">Athens → Cairo → Sharm el Sheikh</div>
+      </div>
+      <span class="day-badge b-multi">Transit</span>
+    </div>
+    <div class="event-row">
+      <div class="ev-icon">🏨</div>
+      <div class="ev-body">
+        <div class="ev-name">Athens Airbnb — Check Out</div>
+        <div class="ev-note">End of 5-night stay</div>
+      </div>
+      <div class="ev-right"></div>
+    </div>
+    <div class="event-row">
+      <div class="ev-icon">✈️</div>
+      <div class="ev-body">
+        <div class="ev-name">Athens → Cairo</div>
+        <div class="ev-note">Departs 6:55am &nbsp;·&nbsp; Arrives 8:50am &nbsp;·&nbsp; 7,500 pts</div>
+      </div>
+      <div class="ev-right">
+        <span class="ev-cost">$52.55</span>
+        <span class="pill pill-ok">Booked</span>
+      </div>
+    </div>
+    <div class="event-row">
+      <div class="ev-icon">✈️</div>
+      <div class="ev-body">
+        <div class="ev-name">Cairo (CAI) → Sharm el Sheikh (SSH)</div>
+        <div class="ev-note">Departs 11:00am</div>
+      </div>
+      <div class="ev-right">
+        <span class="ev-cost">$83.40</span>
+        <span class="pill pill-ok">Booked</span>
+      </div>
+    </div>
+    <div class="event-row">
+      <div class="ev-icon">🏨</div>
+      <div class="ev-body">
+        <div class="ev-name">SSH Hotel — Check In</div>
+        <div class="ev-note">Aug 24 – 26 &nbsp;·&nbsp; 2 nights</div>
+      </div>
+      <div class="ev-right">
+        <span class="ev-cost">$148.60</span>
+        <span class="pill pill-ok">Booked</span>
+      </div>
+    </div>
+    <div class="event-row">
+      <div class="ev-icon">🎭</div>
+      <div class="ev-body">
+        <div class="ev-name">Farsha?</div>
+        <div class="ev-note">Tentative — not confirmed</div>
+      </div>
+      <div class="ev-right">
+        <span class="pill pill-tbd">Tentative</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── AUG 25 ── -->
+  <div class="day-card" id="aug25">
+    <div class="day-hdr">
+      <div class="day-num" style="color:var(--ssh)">25</div>
+      <div class="day-meta">
+        <div class="day-dow">Tuesday</div>
+        <div class="day-loc">Sharm el Sheikh, Egypt</div>
+      </div>
+      <span class="day-badge b-ssh">Red Sea</span>
+    </div>
+    <div class="event-row">
+      <div class="ev-icon">🤿</div>
+      <div class="ev-body">
+        <div class="ev-name">Scuba Diving</div>
+        <div class="ev-note">Red Sea dive &nbsp;·&nbsp; GetYourGuide confirmed</div>
+      </div>
+      <div class="ev-right">
+        <span class="ev-cost">$85</span>
+        <span class="pill pill-ok">Booked</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── AUG 26 ── -->
+  <div class="day-card" id="aug26">
+    <div class="day-hdr">
+      <div class="day-num" style="color:var(--egypt)">26</div>
+      <div class="day-meta">
+        <div class="day-dow">Wednesday</div>
+        <div class="day-loc">Sharm el Sheikh → Cairo, Egypt</div>
+      </div>
+      <span class="day-badge b-egypt">Egypt</span>
+    </div>
+    <div class="event-row">
+      <div class="ev-icon">🏨</div>
+      <div class="ev-body">
+        <div class="ev-name">SSH Hotel — Check Out</div>
+        <div class="ev-note">End of 2-night stay</div>
+      </div>
+      <div class="ev-right"></div>
+    </div>
+    <div class="event-row">
+      <div class="ev-icon">✈️</div>
+      <div class="ev-body">
+        <div class="ev-name">Sharm el Sheikh → Cairo</div>
+        <div class="ev-note">Departs 8:00am</div>
+      </div>
+      <div class="ev-right">
+        <span class="ev-cost">$83.40</span>
+        <span class="pill pill-ok">Booked</span>
+      </div>
+    </div>
+    <div class="event-row">
+      <div class="ev-icon">🏨</div>
+      <div class="ev-body">
+        <div class="ev-name">Cairo Hotel — Check In</div>
+        <div class="ev-note">Aug 26 – 29 &nbsp;·&nbsp; 3 nights</div>
+      </div>
+      <div class="ev-right">
+        <span class="ev-cost">$191.52</span>
+        <span class="pill pill-ok">Booked</span>
+      </div>
+    </div>
+    <div class="event-row skipped">
+      <div class="ev-icon">🏛️</div>
+      <div class="ev-body">
+        <div class="ev-name">Grand Egyptian Museum</div>
+        <div class="ev-note">Not yet booked</div>
+      </div>
+      <div class="ev-right">
+        <span class="pill pill-no">Unbooked</span>
+      </div>
+    </div>
+    <div class="event-row">
+      <div class="ev-icon">🌅</div>
+      <div class="ev-body">
+        <div class="ev-name">Sunset Nile Tour</div>
+        <div class="ev-note">Departs 7:30pm &nbsp;·&nbsp; GetYourGuide confirmed</div>
+      </div>
+      <div class="ev-right">
+        <span class="ev-cost">$68</span>
+        <span class="pill pill-ok">Booked</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── AUG 27 ── -->
+  <div class="day-card" id="aug27">
+    <div class="day-hdr">
+      <div class="day-num" style="color:var(--egypt)">27</div>
+      <div class="day-meta">
+        <div class="day-dow">Thursday</div>
+        <div class="day-loc">Cairo, Egypt</div>
+      </div>
+      <span class="day-badge b-egypt">Egypt</span>
+    </div>
+    <div class="event-row">
+      <div class="ev-icon">🏺</div>
+      <div class="ev-body">
+        <div class="ev-name">Pyramids &amp; Sphinx Tour</div>
+        <div class="ev-note">Giza &nbsp;·&nbsp; GetYourGuide confirmed</div>
+      </div>
+      <div class="ev-right">
+        <span class="ev-cost">$60</span>
+        <span class="pill pill-ok">Booked</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── AUG 28 ── -->
+  <div class="day-card" id="aug28">
+    <div class="day-hdr">
+      <div class="day-num" style="color:var(--egypt)">28</div>
+      <div class="day-meta">
+        <div class="day-dow">Friday</div>
+        <div class="day-loc">Cairo, Egypt</div>
+      </div>
+      <span class="day-badge b-egypt">Egypt</span>
+    </div>
+    <div class="free-day">
+      <div class="free-day-icon">🌿</div>
+      Free day in Cairo — Khan el-Khalili bazaar, Old Cairo, local cuisine
+    </div>
+  </div>
+
+  <!-- ── AUG 29 ── -->
+  <div class="day-card" id="aug29">
+    <div class="day-hdr">
+      <div class="day-num" style="color:var(--transit)">29</div>
+      <div class="day-meta">
+        <div class="day-dow">Saturday</div>
+        <div class="day-loc">Cairo → New York → Sacramento</div>
+      </div>
+      <span class="day-badge b-transit">Heading Home</span>
+    </div>
+    <div class="event-row">
+      <div class="ev-icon">🏨</div>
+      <div class="ev-body">
+        <div class="ev-name">Cairo Hotel — Check Out</div>
+        <div class="ev-note">End of 3-night stay</div>
+      </div>
+      <div class="ev-right"></div>
+    </div>
+    <div class="event-row">
+      <div class="ev-icon">✈️</div>
+      <div class="ev-body">
+        <div class="ev-name">Cairo → JFK</div>
+        <div class="ev-note">40,000 pts</div>
+      </div>
+      <div class="ev-right">
+        <span class="ev-cost">$107.83</span>
+        <span class="pill pill-ok">Booked</span>
+      </div>
+    </div>
+    <div class="event-row">
+      <div class="ev-icon">✈️</div>
+      <div class="ev-body">
+        <div class="ev-name">JFK → SMF</div>
+        <div class="ev-note">Confirmation: EAXQWB &nbsp;·&nbsp; 11,950 pts</div>
+      </div>
+      <div class="ev-right">
+        <span class="ev-cost">$5</span>
+        <span class="pill pill-ok">Booked</span>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<footer>
+  Egypt &amp; Greece &nbsp;·&nbsp; August 2026
+</footer>
+
+<script>
+  function go(id) {
+    const el = document.getElementById(id);
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+</script>
+
+</body>
+</html>
